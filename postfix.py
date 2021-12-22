@@ -1,13 +1,21 @@
-class ArrayStack:
+# In this file, we imitate the function 'expression(str)' by the 'Stack', one of data structures.
+# import re for regular expression
+import os
+import re
 
+
+# Definition of the class 'Stack'
+# Actually, What Stack can do is what list can do. there are little differences.
+# Property of the first-in-last-out
+class Stack:
     def __init__(self):
         self.data = []
 
     def size(self):
         return len(self.data)
 
-    def isEmpty(self):
-        return self.size() == 0
+    def is_empty(self):
+        return len(self.data) == 0
 
     def push(self, item):
         self.data.append(item)
@@ -19,30 +27,17 @@ class ArrayStack:
         return self.data[-1]
 
 
-def splitTokens(exprStr):
-    tokens = []
-    val = 0
-    valProcessing = False
-    for c in exprStr:
-        if c == ' ': # 빈 칸 제거
-            continue
-        if c in '0123456789':
-            val = val * 10 + int(c)
-            valProcessing = True
-        else:
-            if valProcessing:
-                tokens.append(val)
-                val = 0
-            valProcessing = False
-            tokens.append(c)
-    if valProcessing:
-        tokens.append(val)
-
-    return tokens
+# 'Extracting the proper str' process to convert an infix form to a postfix form
+# We use regular expression of python (re module is used in here.)
+def remove_space(expression: str) -> str:
+    extract = re.sub(r'\s', '', expression)
+    return extract
 
 
-def infixToPostfix(tokenList):
-    prec = {
+# Actual process of postfix
+def infix_to_postfix(extract: str) -> list:
+    # order of operations
+    operation_order = {
         '*': 3,
         '/': 3,
         '+': 2,
@@ -50,52 +45,83 @@ def infixToPostfix(tokenList):
         '(': 1,
     }
 
-    opStack = ArrayStack()
-    postfixList = []
+    op_stack = Stack()
+    postfix_list = []
 
-    for value in tokenList:
+    for i, value in enumerate(extract):
+        # case of (,)
         if value == ')':
-            while opStack.peek() != '(':
-                postfixList.append(opStack.pop())
-            opStack.pop()
+            while op_stack.peek() != '(':
+                postfix_list.append(op_stack.pop())
+            op_stack.pop()
         elif value == '(':
-            opStack.push('(')
-        elif type(value) == int :
-            postfixList.append(value)
-        elif not opStack.size() or prec[opStack.peek()] < prec[value]:
-            opStack.push(value)
+            op_stack.push('(')
+
+        # case of numbers
+        elif value.isdigit() or value == '.':
+            if i == 0 or (not extract[i-1].isdigit() and extract[i-1] != '.'):
+                postfix_list.append(value)
+            else:
+                postfix_list[-1] += value
+        # case of operators
+        elif op_stack.is_empty() or operation_order[op_stack.peek()] < operation_order[value]:
+            op_stack.push(value)
         else:
-            while opStack.data and prec[opStack.peek()] >= prec[value]:
-                postfixList.append(opStack.pop())
-            opStack.push(value)
-    while opStack.data:
-        postfixList.append(opStack.pop())
+            while op_stack.data and operation_order[op_stack.peek()] >= operation_order[value]:
+                postfix_list.append(op_stack.pop())
+            op_stack.push(value)
 
-    return postfixList
+    # add remaining elements in the stack to list
+    while op_stack.data:
+        postfix_list.append(op_stack.pop())
+
+    return postfix_list
 
 
-def postfixEval(tokenList):
-    St = ArrayStack()
-    for value in tokenList:
-        if type(value) == int:
-            St.push(value)
+# Calculation
+def postfix_eval(postfix_list) -> int or float:
+    st = Stack()
+    for value in postfix_list:
+        if value == re.sub('[^0-9.]', '', value):
+            st.push(value)
         elif value == '+':
-            val = St.pop() + St.pop()
-            St.push(val)
+            val = float(st.pop()) + float(st.pop())
+            st.push(val)
         elif value == '-':
-            val = -St.pop() + St.pop()
-            St.push(val)
+            val = -float(st.pop()) + float(st.pop())
+            st.push(val)
         elif value == '*':
-            val = St.pop() * St.pop()
-            St.push(val)
+            val = float(st.pop()) * float(st.pop())
+            st.push(val)
         else:
-            val = (1 / St.pop()) * St.pop()
-            St.push(val)
-    return St.peek()
+            val = (1 / float(st.pop())) * float(st.pop())
+            st.push(val)
+    return st.peek()
 
 
-def solution(expr):
-    tokens = splitTokens(expr)
-    postfix = infixToPostfix(tokens)
-    val = postfixEval(postfix)
+# From a string expression, we evaluate a real value, like the 'expression' function already in python
+def solution(expression: str) -> int or float:
+    if not expression:
+        return 'Blank!'
+    tokens = remove_space(expression)
+    postfix = infix_to_postfix(tokens)
+    val = postfix_eval(postfix)
     return val
+
+
+loop = True
+while loop:
+    reply_list = ['y', 'n']
+    formula = input("Make a suitable formula > ")
+    print(solution(formula))
+    while True:
+        reply = input("Do you want to calculate other formulas? (y/n) : ")
+        if reply.lower() not in reply_list:
+            print("Type y or n.")
+        elif reply.lower() == 'y':
+            os.system('cls')
+            break
+        else:
+            input("Press any key to quit this program.")
+            loop = False
+            break
