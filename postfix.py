@@ -1,6 +1,5 @@
 # In this file, we imitate the function 'expression(str)' by the 'Stack', one of data structures.
 # import re for regular expression
-import os
 import re
 
 
@@ -38,6 +37,7 @@ def remove_space(expression: str) -> str:
 def infix_to_postfix(extract: str) -> list:
     # order of operations
     operation_order = {
+        '^': 4,
         '*': 3,
         '/': 3,
         '+': 2,
@@ -93,8 +93,13 @@ def postfix_eval(postfix_list) -> int or float:
         elif value == '*':
             val = float(st.pop()) * float(st.pop())
             st.push(val)
-        else:
+        elif value == '/':
             val = (1 / float(st.pop())) * float(st.pop())
+            st.push(val)
+        else:
+            pos = float(st.pop())
+            pre = float(st.pop())
+            val = pre ** pos
             st.push(val)
     return st.peek()
 
@@ -103,25 +108,13 @@ def postfix_eval(postfix_list) -> int or float:
 def solution(expression: str) -> int or float:
     if not expression:
         return 'Blank!'
-    tokens = remove_space(expression)
-    postfix = infix_to_postfix(tokens)
-    val = postfix_eval(postfix)
+    try:
+        tokens = remove_space(expression)
+        postfix = infix_to_postfix(tokens)
+        val = postfix_eval(postfix)
+    except:
+        return "You inserted a wrong formula!"
+
     return val
 
 
-loop = True
-while loop:
-    reply_list = ['y', 'n']
-    formula = input("Make a suitable formula > ")
-    print(solution(formula))
-    while True:
-        reply = input("Do you want to calculate other formulas? (y/n) : ")
-        if reply.lower() not in reply_list:
-            print("Type y or n.")
-        elif reply.lower() == 'y':
-            os.system('cls')
-            break
-        else:
-            input("Press any key to quit this program.")
-            loop = False
-            break
