@@ -35,59 +35,68 @@ while loop:
         ans = 2
         deg = 111
         # int
-        all = [[], [N], [11 * N, N + N, N * N, 1, 0]]
+        all = [set(), {N}, {11 * N, N + N, N * N, 1, 0}]
         # character
-        all_chr = [[], [f"{N}"], [f"{N}" * 2, f"{N}+{N}", f"{N}*{N}", f"{N}/{N}", f"{N}-{N}"]]
+        all_chr = [set(), {f"{N}"}, {f"{N}" * 2, f"{N}+{N}", f"{N}*{N}", f"{N}/{N}", f"{N}-{N}"}]
 
         # trivial cases
         if number == N:
-            return 1
+            return 1, N
         if number in all[2]:
-            return 2
+            expression = [expr for expr in all_chr[2] if eval(expr) == number]
+            return 2, expression
 
         while number not in all[ans]:
             ans += 1
             if ans == 8:
-                return 0, [f"Cannot be expressed by {N} less than 8 numbers"]
-            all.append([])
-            all_chr.append([])
+                return 0, f"Cannot be expressed by {N} less than or equal to 7 numbers"
+            all.append(set())
+            all_chr.append(set())
             for i in range(1, ans):
                 # Actual calculation
-                p = [all[i][j] + all[ans - i][k] for j in range(len(all[i])) for k in
-                     range(len(all[ans - i]))]
-                m = [all[i][j] * all[ans - i][k] for j in range(len(all[i])) for k in
-                     range(len(all[ans - i]))]
-                mi = [all[i][j] - all[ans - i][k] for j in range(len(all[i])) for k in
-                      range(len(all[ans - i]))]
-                d = [all[i][j] / all[ans - i][k] for j in range(len(all[i])) for k in
-                     range(len(all[ans - i])) if all[ans - i][k] != 0]
+                p = {l_value + r_value
+                     for l_value in all[i]
+                     for r_value in all[ans - i]}
+                m = {l_value * r_value
+                     for l_value in all[i]
+                     for r_value in all[ans - i]}
+                mi = {l_value - r_value
+                     for l_value in all[i]
+                     for r_value in all[ans - i]}
+                d = {l_value / r_value
+                     for l_value in all[i]
+                     for r_value in all[ans - i]
+                     if r_value  != 0}
 
-                all[ans] = list(set(all[ans] + p + m + mi + d))
+                all[ans].update(p | m | mi | d | {deg * N})
 
                 # character part
-                p_chr = ["(" + all_chr[i][j] + ")" + "+" + "(" + all_chr[ans - i][k] + ")" for j in
-                         range(len(all_chr[i])) for k in range(len(all_chr[ans - i]))]
-                m_chr = ["(" + all_chr[i][j] + ")" + "*" + "(" + all_chr[ans - i][k] + ")" for j in
-                         range(len(all_chr[i])) for k in range(len(all_chr[ans - i]))]
-                mi_chr = ["(" + all_chr[i][j] + ")" + "-" + "(" + all_chr[ans - i][k] + ")" for j in
-                          range(len(all_chr[i])) for k in range(len(all_chr[ans - i]))]
-                d_chr = ["(" + all_chr[i][j] + ")" + "/" + "(" + all_chr[ans - i][k] + ")" for j in
-                         range(len(all_chr[i])) for k in range(len(all_chr[ans - i])) if eval(all_chr[ans - i][k]) != 0]
+                p_chr = {f"({l_value})+({r_value})"
+                         for l_value in all_chr[i]
+                         for r_value in all_chr[ans - i]}
+                m_chr = {f"({l_value})*({r_value})"
+                         for l_value in all_chr[i]
+                         for r_value in all_chr[ans - i]}
+                mi_chr = {f"({l_value})-({r_value})"
+                         for l_value in all_chr[i]
+                         for r_value in all_chr[ans - i]}
+                d_chr = {f"({l_value})/({r_value})"
+                         for l_value in all_chr[i]
+                         for r_value in all_chr[ans - i]
+                         if eval(r_value) != 0}
 
-                all_chr[ans] = list(set(all_chr[ans] + p_chr + m_chr + mi_chr + d_chr))
+                all_chr[ans].update(p_chr | m_chr | mi_chr | d_chr | {str(N)*ans})
 
-            all[ans] = all[ans] + [deg * N]
-            all_chr[ans] = all_chr[ans] + [str(N) * ans]
             deg = 10 * deg + 1
 
-        expression = [all_chr[ans][i] for i in range(len(all_chr[ans])) if eval(all_chr[ans][i]) == number]
+        expression = [expr for expr in all_chr[ans] if eval(expr) == number]
         return ans, expression
 
 
     start = t.time()
-    print(solution(N, number), end="\n")
+    print(solution(N, number))
     end = t.time()
-    print("Lead time:", round(end - start, 3), "sec")
+    print("Lead time:", end - start, "sec")
 
     while True:
         sel = input("> Loop this program? (y/n): ")

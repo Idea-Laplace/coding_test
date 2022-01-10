@@ -1,11 +1,13 @@
 # In this file, we imitate the function 'expression(str)' by the 'Stack', one of data structures.
 # import re for regular expression
 import re
-
+import my_func as d
 
 # Definition of the class 'Stack'
 # Actually, What Stack can do is what list can do. there are little differences.
 # Property of the first-in-last-out
+
+
 class Stack:
     def __init__(self):
         self.data = []
@@ -29,7 +31,7 @@ class Stack:
 # 'Extracting the proper str' process to convert an infix form to a postfix form
 # We use regular expression of python (re module is used in here.)
 def remove_space(expression: str) -> str:
-    extract = re.sub(r'\s', '', expression)
+    extract = re.sub('[^0-9+*/()-]', '', expression)
     return extract
 
 
@@ -103,8 +105,10 @@ def postfix_eval(postfix_list) -> int or float:
             st.push(val)
     return st.peek()
 
-
 # From a string expression, we evaluate a real value, like the 'expression' function already in python
+
+
+
 def solution(expression: str) -> int or float:
     if not expression:
         return 'Blank!'
@@ -117,4 +121,7 @@ def solution(expression: str) -> int or float:
 
     return val
 
+print(__name__)
 
+if __name__ == '__main__':
+    d.decorator(solution)

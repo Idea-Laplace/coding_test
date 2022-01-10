@@ -1,9 +1,11 @@
+# Modules
 import os
 import re
 import time
-import postfix as p
 import keyboard as k
+import postfix as p
 
+# Variables
 loop = True
 Up = 72
 Down = 80
@@ -15,7 +17,7 @@ arrow_2 = [' 1 ', ' 2 ', ' 3 ', ' * ', ' / ']
 arrow_3 = [' ( ', ' 0 ', ' ) ', ' . ', ' = ']
 arrow = [arrow_0, arrow_1, arrow_2, arrow_3]
 
-
+#Actual Calculator
 def calculator():
     formula = ''
     position = None
@@ -25,6 +27,8 @@ def calculator():
         for value in arrow_list:
             print(value, end=' ')
         print()
+
+    #Key operations
     while loop:
         if k.is_pressed(Up):
             os.system('cls')
@@ -170,7 +174,6 @@ def calculator():
                         print(value, end=' ')
                     print()
                 time.sleep(0.2)
-
 
 
 calculator()
