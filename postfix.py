@@ -1,6 +1,7 @@
 # In this file, we imitate the function 'expression(str)' by the 'Stack', one of data structures.
 # import re for regular expression
 import re
+
 from my_func import rep_continue as rp
 
 
@@ -19,9 +20,6 @@ class Stack:
     def __init__(self):
         self.depth = 0
         self.peek = None
-
-    def is_empty(self):
-        return self.depth == 0
 
     def push(self, element: Element):
         self.depth += 1
@@ -43,11 +41,23 @@ class Stack:
         self.depth -= 1
         return extract
 
+    def __repr__(self):
+        if not self.depth:
+            return ']'
+        elem = self.peek
+        rep = str(elem.data)
+        while elem.prev:
+            rep += '|'
+            rep += str(elem.data)
+            elem = elem.prev
+        rep += ']'
+        return rep
+
 
 # 'Extracting the proper str' process to convert an infix form to a postfix form
 # We use regular expression of python (re module is used in here.)
 def remove_space(expression: str) -> str:
-    extract = re.sub('[^0-9+*/().-]', '', expression)
+    extract = re.sub('[^0-9+*/().^-]', '', expression)
     return extract
 
 
@@ -88,7 +98,6 @@ def infix_to_postfix(extract: str) -> list:
             while op_stack.depth and operation_order[op_stack.peek.data] >= operation_order[value]:
                 postfix_list.append(op_stack.pop().data)
             op_stack.push(Element(value))
-
     # add remaining elements in the stack to list
     while op_stack.depth:
         postfix_list.append(op_stack.pop().data)
@@ -120,7 +129,7 @@ def postfix_eval(postfix_list) -> int or float:
             pre = float(st.pop().data)
             val = pre ** pos
             st.push(Element(val))
-    return st.peek.data
+    return float(st.peek.data)
 
 
 # From a string expression, we evaluate a real value, like the 'expression' function already in python
@@ -137,9 +146,11 @@ def solution(expression: str) -> int or float:
         return '0 division is not allowed.'
     except Exception:
         return "You inserted a wrong formula!"
-
+    if val == int(val):
+        return int(val)
     return val
 
 
 if __name__ == '__main__':
+
     rp(solution)
