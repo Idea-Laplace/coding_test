@@ -6,7 +6,7 @@ import keyboard as k
 import postfix as p
 
 # Variables
-loop = True
+LOOP = True
 Up = 72
 Down = 80
 Left = 75
@@ -29,7 +29,7 @@ def calculator():
         print()
 
     #Key operations
-    while loop:
+    while LOOP:
         if k.is_pressed(Up):
             os.system('cls')
             if not position:
