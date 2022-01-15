@@ -1,7 +1,6 @@
 # In this file, we imitate the function 'expression(str)' by the 'Stack', one of data structures.
 # import re for regular expression
 import re
-
 from my_func import rep_continue as rp
 
 
@@ -109,7 +108,7 @@ def postfix_eval(postfix_list) -> int or float:
     st = Stack()
     for value in postfix_list:
         if value == re.sub('[^0-9.]', '', value):
-            st.push(Element(value))
+            st.push(Element(float(value)))
         elif value == '+':
             val = float(st.pop().data) + float(st.pop().data)
             st.push(Element(val))
@@ -129,7 +128,7 @@ def postfix_eval(postfix_list) -> int or float:
             pre = float(st.pop().data)
             val = pre ** pos
             st.push(Element(val))
-    return float(st.peek.data)
+    return st.peek.data
 
 
 # From a string expression, we evaluate a real value, like the 'eval' function already in python
@@ -152,5 +151,4 @@ def solution(expression: str) -> int or float:
 
 
 if __name__ == '__main__':
-
     rp(solution)
