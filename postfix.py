@@ -132,7 +132,7 @@ def postfix_eval(postfix_list) -> int or float:
     return float(st.peek.data)
 
 
-# From a string expression, we evaluate a real value, like the 'expression' function already in python
+# From a string expression, we evaluate a real value, like the 'eval' function already in python
 
 
 def solution(expression: str) -> int or float:
