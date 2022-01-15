@@ -110,22 +110,22 @@ def postfix_eval(postfix_list) -> int or float:
         if value == re.sub('[^0-9.]', '', value):
             st.push(Element(float(value)))
         elif value == '+':
-            val = float(st.pop().data) + float(st.pop().data)
+            val = st.pop().data + st.pop().data
             st.push(Element(val))
         elif value == '-':
-            val = -float(st.pop().data) + float(st.pop().data)
+            val = -st.pop().data + st.pop().data
             st.push(Element(val))
         elif value == '*':
-            val = float(st.pop().data) * float(st.pop().data)
+            val = st.pop().data * st.pop().data
             st.push(Element(val))
         elif value == '/':
             if not st.peek.data:
                 raise ZeroDivisionError
-            val = (1 / float(st.pop().data)) * float(st.pop().data)
+            val = (1 / st.pop().data) * st.pop().data
             st.push(Element(val))
         else:
-            pos = float(st.pop().data)
-            pre = float(st.pop().data)
+            pos = st.pop().data
+            pre = st.pop().data
             val = pre ** pos
             st.push(Element(val))
     return st.peek.data
