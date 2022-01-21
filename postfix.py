@@ -1,8 +1,7 @@
 # In this file, we imitate the function 'expression(str)' by the 'Stack', one of data structures.
 # import re for regular expression
 import re
-from my_func import rep_continue as rp
-
+import os
 
 # Definition of the class 'Stack'
 # Actually, What Stack can do is what list can do. there are little differences.
@@ -11,7 +10,6 @@ from my_func import rep_continue as rp
 class Element:
     def __init__(self, item):
         self.data = item
-        self.next = None
         self.prev = None
 
 
@@ -23,7 +21,6 @@ class Stack:
     def push(self, element: Element):
         self.depth += 1
         if self.peek:
-            self.peek.next = element
             element.prev = self.peek
         self.peek = element
 
@@ -34,7 +31,6 @@ class Stack:
         extract = self.peek
         if extract.prev:
             self.peek = extract.prev
-            self.peek.next = None
         else:
             self.peek = None
         self.depth -= 1
@@ -151,4 +147,19 @@ def solution(expression: str) -> int or float:
 
 
 if __name__ == '__main__':
-    rp(solution)
+    loop = True
+    while loop:
+        os.system('cls')
+        variables = input("Insert a suitable formula. > ")
+        print(solution(variables))
+        while True:
+            reply = input("Do you want to calculate other formulas? (y/n) : ")
+            if reply.lower() not in 'yn':
+                print("Type y or n.")
+                continue
+            elif reply.lower() == 'y':
+                break
+            else:
+                input("Press any key to quit this program.")
+                loop = False
+                break
