@@ -33,7 +33,7 @@ class DoublyLinkedList:
     def getLength(self):
         return self.nodeCount
 
-    def traverse(self):
+    def traverse(self) -> list:
         result = []
         curr = self.head
         while curr.next.next:
@@ -41,7 +41,7 @@ class DoublyLinkedList:
             result.append(curr.data)
         return result
 
-    def reverse(self):
+    def reverse(self) -> list:
         result = []
         curr = self.tail
         while curr.prev.prev:
@@ -49,7 +49,7 @@ class DoublyLinkedList:
             result.append(curr.data)
         return result
 
-    def getAt(self, pos):
+    def get_at(self, pos) -> Node:
         if pos < 1 or pos > self.nodeCount:
             return None
 
@@ -63,7 +63,7 @@ class DoublyLinkedList:
                 curr = curr.next
         return curr
 
-    def insertAfter(self, prev, newNode):
+    def insert_after(self, prev, newNode):
         next = prev.next
         newNode.prev = prev
         newNode.next = next

@@ -77,6 +77,8 @@ class Array:
         if not self.length:
             raise IndexError
         value = self.index(idx)
+        if idx < 0:
+            idx = self.length + idx
         for i in range(idx, self.length-1):
             temp = self.__getattribute__(f'index_{i+1}')
             self.__setattr__(f'index_{i}', temp)

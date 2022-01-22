@@ -7,10 +7,10 @@ import postfix as p
 
 # Variables
 LOOP = True
-Up = 72
-Down = 80
-Left = 75
-Right = 77
+UP = 72
+DOWN = 80
+LEFT = 75
+RIGHT = 77
 arrow_0 = [' 7 ', ' 8 ', ' 9 ', ' Backspace ', ' CE ']
 arrow_1 = [' 4 ', ' 5 ', ' 6 ', ' + ', ' - ']
 arrow_2 = [' 1 ', ' 2 ', ' 3 ', ' * ', ' / ']
@@ -22,7 +22,7 @@ def calculator():
     formula = ''
     position = None
     print("\n\n\n")
-    print('[', ' ' * (30 - len(formula)) + formula, ']', end='\n\n')
+    print('[', ' ' * (25 - len(formula)) + formula, ']', end='\n\n')
     for arrow_list in arrow:
         for value in arrow_list:
             print(value, end=' ')
@@ -30,13 +30,13 @@ def calculator():
 
     #Key operations
     while LOOP:
-        if k.is_pressed(Up):
+        if k.is_pressed(UP):
             os.system('cls')
             if not position:
                 position = [3, 1]
                 arrow[position[0]][position[1]] = '{' + arrow[position[0]][position[1]].strip() + '}'
                 print("\n\n\n")
-                print('[', ' ' * (30 - len(formula)) + formula, ']', end='\n\n')
+                print('[', ' ' * (25 - len(formula)) + formula, ']', end='\n\n')
                 for arrow_list in arrow:
                     for value in arrow_list:
                         print(value, end=' ')
@@ -47,20 +47,20 @@ def calculator():
                 position[0] = (position[0] - 1) % 4
                 arrow[position[0]][position[1]] = '{' + arrow[position[0]][position[1]].strip() + '}'
                 print("\n\n\n")
-                print('[', ' ' * (30 - len(formula)) + formula, ']', end='\n\n')
+                print('[', ' ' * (25 - len(formula)) + formula, ']', end='\n\n')
                 for arrow_list in arrow:
                     for value in arrow_list:
                         print(value, end=' ')
                     print()
                 time.sleep(0.2)
 
-        if k.is_pressed(Down):
+        if k.is_pressed(DOWN):
             os.system('cls')
             if not position:
                 position = [0, 1]
                 arrow[position[0]][position[1]] = '{' + arrow[position[0]][position[1]].strip() + '}'
                 print("\n\n\n")
-                print('[', ' ' * (30 - len(formula)) + formula, ']', end='\n\n')
+                print('[', ' ' * (25 - len(formula)) + formula, ']', end='\n\n')
                 for arrow_list in arrow:
                     for value in arrow_list:
                         print(value, end=' ')
@@ -71,19 +71,19 @@ def calculator():
                 position[0] = (position[0] + 1) % 4
                 arrow[position[0]][position[1]] = '{' + arrow[position[0]][position[1]].strip() + '}'
                 print("\n\n\n")
-                print('[', ' ' * (30 - len(formula)) + formula, ']', end='\n\n')
+                print('[', ' ' * (25 - len(formula)) + formula, ']', end='\n\n')
                 for arrow_list in arrow:
                     for value in arrow_list:
                         print(value, end=' ')
                     print()
                 time.sleep(0.2)
-        if k.is_pressed(Left):
+        if k.is_pressed(LEFT):
             os.system('cls')
             if not position:
                 position = [1, 4]
                 arrow[position[0]][position[1]] = '{' + arrow[position[0]][position[1]].strip() + '}'
                 print("\n\n\n")
-                print('[', ' ' * (30 - len(formula)) + formula, ']', end='\n\n')
+                print('[', ' ' * (25 - len(formula)) + formula, ']', end='\n\n')
                 for arrow_list in arrow:
                     for value in arrow_list:
                         print(value, end=' ')
@@ -94,19 +94,19 @@ def calculator():
                 position[1] = (position[1] - 1) % 5
                 arrow[position[0]][position[1]] = '{' + arrow[position[0]][position[1]].strip() + '}'
                 print("\n\n\n")
-                print('[', ' ' * (30 - len(formula)) + formula, ']', end='\n\n')
+                print('[', ' ' * (25 - len(formula)) + formula, ']', end='\n\n')
                 for arrow_list in arrow:
                     for value in arrow_list:
                         print(value, end=' ')
                     print()
                 time.sleep(0.2)
-        if k.is_pressed(Right):
+        if k.is_pressed(RIGHT):
             os.system('cls')
             if not position:
                 position = [1, 0]
                 arrow[position[0]][position[1]] = '{' + arrow[position[0]][position[1]].strip() + '}'
                 print("\n\n\n")
-                print('[', ' ' * (30 - len(formula)) + formula, ']', end='\n\n')
+                print('[', ' ' * (25 - len(formula)) + formula, ']', end='\n\n')
                 for arrow_list in arrow:
                     for value in arrow_list:
                         print(value, end=' ')
@@ -117,7 +117,7 @@ def calculator():
                 position[1] = (position[1] + 1) % 5
                 arrow[position[0]][position[1]] = '{' + arrow[position[0]][position[1]].strip() + '}'
                 print("\n\n\n")
-                print('[', ' ' * (30 - len(formula)) + formula, ']', end='\n\n')
+                print('[', ' ' * (25 - len(formula)) + formula, ']', end='\n\n')
                 for arrow_list in arrow:
                     for value in arrow_list:
                         print(value, end=' ')
@@ -132,7 +132,7 @@ def calculator():
                 os.system('cls')
                 formula = ''
                 print("\n\n\n")
-                print('[', ' ' * (30 - len(formula)) + formula, ']', end='\n\n')
+                print('[', ' ' * (25 - len(formula)) + formula, ']', end='\n\n')
                 for arrow_list in arrow:
                     for value in arrow_list:
                         print(value, end=' ')
@@ -146,7 +146,7 @@ def calculator():
                 else:
                     pass
                 print("\n\n\n")
-                print('[', ' ' * (30 - len(formula)) + formula, ']', end='\n\n')
+                print('[', ' ' * (25 - len(formula)) + formula, ']', end='\n\n')
                 for arrow_list in arrow:
                     for value in arrow_list:
                         print(value, end=' ')
@@ -157,7 +157,7 @@ def calculator():
                 os.system('cls')
                 formula = str(p.solution(formula))
                 print("\n\n\n")
-                print('[', ' ' * (30 - len(formula)) + formula, ']', end='\n\n')
+                print('[', ' ' * (25 - len(formula)) + formula, ']', end='\n\n')
                 for arrow_list in arrow:
                     for value in arrow_list:
                         print(value, end=' ')
@@ -168,7 +168,7 @@ def calculator():
                 os.system('cls')
                 formula += select
                 print("\n\n\n")
-                print('[', ' ' * (30 - len(formula)) + formula, ']', end='\n\n')
+                print('[', ' ' * (25 - len(formula)) + formula, ']', end='\n\n')
                 for arrow_list in arrow:
                     for value in arrow_list:
                         print(value, end=' ')
