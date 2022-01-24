@@ -1,0 +1,4 @@
+# Things to omit
+
+__pycache__\
+.idea
